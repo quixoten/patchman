@@ -1,5 +1,7 @@
 # Django settings for patchman project.
 
+from __future__ import absolute_import, unicode_literals
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 import sys
@@ -109,13 +111,15 @@ BROKER_PASSWORD = 'guest'
 BROKER_VHOST = '/'
 
 try:
-    import djcelery
+    from celery import Celery
 except ImportError:
     USE_ASYNC_PROCESSING = False
 else:
-    THIRD_PARTY_APPS += ('djcelery',)
+    THIRD_PARTY_APPS += ('celery',)
     USE_ASYNC_PROCESSING = True
-    djcelery.setup_loader()
+    import celeryconfig
+    app.config_from_object(celeryconfig)
+    app.autodiscover_tasks()
 
 LOGIN_REDIRECT_URL = '/patchman/'
 LOGOUT_REDIRECT_URL = '/patchman/login/'

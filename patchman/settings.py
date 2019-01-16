@@ -118,6 +118,7 @@ else:
     THIRD_PARTY_APPS += ('celery',)
     USE_ASYNC_PROCESSING = True
     import celeryconfig
+    app = Celery('tasks')
     app.config_from_object(celeryconfig)
     app.autodiscover_tasks()
 

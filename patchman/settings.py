@@ -65,7 +65,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-
 )
 
 DEFAULT_APPS = (
@@ -119,9 +118,8 @@ else:
     USE_ASYNC_PROCESSING = True
     app = Celery('patchman')
     CELERY_TASK_SERIALIZER = 'pickle'
-    CELERY_IMPORTS = ('patchman.reports',)
+    CELERY_IMPORTS = ('patchman.reports.tasks',)
     app.config_from_object('django.conf:settings', namespace='CELERY')
-    app.autodiscover_tasks()
 
 LOGIN_REDIRECT_URL = '/patchman/'
 LOGOUT_REDIRECT_URL = '/patchman/login/'

@@ -117,9 +117,10 @@ except ImportError:
 else:
     THIRD_PARTY_APPS += ('celery',)
     USE_ASYNC_PROCESSING = True
-    import celeryconfig
-    app = Celery('tasks')
-    app.config_from_object(celeryconfig)
+    app = Celery('patchman')
+    CELERY_TASK_SERIALIZER = 'pickle'
+    CELERY_IMPORTS = ('patchman.reports',)
+    app.config_from_object('django.conf:settings', namespace='CELERY')
     app.autodiscover_tasks()
 
 LOGIN_REDIRECT_URL = '/patchman/'
